@@ -50,6 +50,9 @@ pallet-contracts-primitives = { git = "https://github.com/paritytech/substrate",
 # Chain extension
 pallet-assets-chain-extension = { git = "https://github.com/727-Ventures/pallet-assets-chain-extension", default-features = false, features = ["substrate"], branch = "polkadot-v0.9.37"  }
 
+# Local
+pallet-cere-contracts = { path = "../pallets/cere-contracts", default-features = false}
+
 [build-dependencies]
 substrate-wasm-builder =  { git = "https://github.com/paritytech/substrate", package = "substrate-wasm-builder", optional = true, branch = "polkadot-v0.9.37" }
 
@@ -83,6 +86,7 @@ std = [
 	"sp-version/std",
 	"pallet-contracts/std",
 	"pallet-contracts-primitives/std",
+	"pallet-cere-contracts/std",
 	"pallet-assets/std",
 	"pallet-assets-chain-extension/substrate-std",
 	"substrate-wasm-builder",
