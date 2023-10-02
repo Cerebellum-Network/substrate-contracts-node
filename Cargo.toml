@@ -3,6 +3,7 @@ resolver = "2"
 members = [
     'node',
     'runtime',
+    'pallets/cere-contracts',
 ]
 
 [profile.release]
