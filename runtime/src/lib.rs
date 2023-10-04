@@ -321,6 +321,7 @@ parameter_types! {
 		.max_total
 		.unwrap_or(RuntimeBlockWeights::get().max_block);
 	pub Schedule: pallet_contracts::Schedule<Runtime> = Default::default();
+	pub CereSchedule: pallet_cere_contracts::Schedule<Runtime> = Default::default();
 }
 
 impl pallet_utility::Config for Runtime {
@@ -385,11 +386,11 @@ impl pallet_cere_contracts::Config for Runtime {
 	type CallStack = [pallet_cere_contracts::Frame<Self>; 31];
 	type WeightPrice = pallet_transaction_payment::Pallet<Self>;
 	type WeightInfo = pallet_cere_contracts::weights::SubstrateWeight<Self>;
-	type ChainExtension = pallet_assets_chain_extension::substrate::AssetsExtension;
+	type ChainExtension = ();
 	type DeletionQueueDepth = DeletionQueueDepth;
 	type DeletionWeightLimit = DeletionWeightLimit;
-	type Schedule = Schedule;
-	type AddressGenerator = pallet_contracts::DefaultAddressGenerator;
+	type Schedule = CereSchedule;
+	type AddressGenerator = pallet_cere_contracts::DefaultAddressGenerator;
 	// This node is geared towards development and testing of contracts.
 	// We decided to increase the default allowed contract size for this
 	// reason (the default is `128 * 1024`).
@@ -642,7 +643,7 @@ impl_runtime_apis! {
 			input_data: Vec<u8>,
 		) -> pallet_contracts_primitives::ContractExecResult<Balance> {
 			let gas_limit = gas_limit.unwrap_or(RuntimeBlockWeights::get().max_block);
-			Contracts::bare_call(
+			CereContracts::bare_call(
 				origin,
 				dest,
 				value,
@@ -665,7 +666,7 @@ impl_runtime_apis! {
 		) -> pallet_contracts_primitives::ContractInstantiateResult<AccountId, Balance>
 		{
 			let gas_limit = gas_limit.unwrap_or(RuntimeBlockWeights::get().max_block);
-			Contracts::bare_instantiate(
+			CereContracts::bare_instantiate(
 				origin,
 				value,
 				gas_limit,
@@ -684,14 +685,14 @@ impl_runtime_apis! {
 			determinism: pallet_cere_contracts::Determinism,
 		) -> pallet_contracts_primitives::CodeUploadResult<Hash, Balance>
 		{
-			Contracts::bare_upload_code(origin, code, storage_deposit_limit, determinism)
+			CereContracts::bare_upload_code(origin, code, storage_deposit_limit, determinism)
 		}
 
 		fn get_storage(
 			address: AccountId,
 			key: Vec<u8>,
 		) -> pallet_contracts_primitives::GetStorageResult {
-			Contracts::get_storage(address, key)
+			CereContracts::get_storage(address, key)
 		}
 	}
 }
