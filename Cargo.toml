@@ -4,6 +4,7 @@ members = [
     'node',
     'runtime',
     'pallets/cere-contracts',
+    'pallets/cere-contracts/primitives',
 ]
 
 [profile.release]

@@ -321,7 +321,7 @@ parameter_types! {
 		.max_total
 		.unwrap_or(RuntimeBlockWeights::get().max_block);
 	pub Schedule: pallet_contracts::Schedule<Runtime> = Default::default();
-	pub CereSchedule: pallet_cere_contracts::Schedule<Runtime> = Default::default();
+	// pub CereSchedule: pallet_cere_contracts::Schedule<Runtime> = Default::default();
 }
 
 impl pallet_utility::Config for Runtime {
@@ -349,7 +349,8 @@ impl pallet_contracts::Config for Runtime {
 	type CallStack = [pallet_contracts::Frame<Self>; 31];
 	type WeightPrice = pallet_transaction_payment::Pallet<Self>;
 	type WeightInfo = pallet_contracts::weights::SubstrateWeight<Self>;
-	type ChainExtension = pallet_assets_chain_extension::substrate::AssetsExtension;
+	// type ChainExtension = pallet_assets_chain_extension::substrate::AssetsExtension;
+	type ChainExtension = ();
 	type DeletionQueueDepth = DeletionQueueDepth;
 	type DeletionWeightLimit = DeletionWeightLimit;
 	type Schedule = Schedule;
@@ -368,42 +369,42 @@ impl pallet_contracts::Config for Runtime {
 	type UnsafeUnstableInterface = ConstBool<true>;
 }
 
-impl pallet_cere_contracts::Config for Runtime {
-	type Time = Timestamp;
-	type Randomness = RandomnessCollectiveFlip;
-	type Currency = Balances;
-	type RuntimeEvent = RuntimeEvent;
-	type RuntimeCall = RuntimeCall;
-	/// The safest default is to allow no calls at all.
-	///
-	/// Runtimes should whitelist dispatchables that are allowed to be called from contracts
-	/// and make sure they are stable. Dispatchables exposed to contracts are not allowed to
-	/// change because that would break already deployed contracts. The `RuntimeCall` structure
-	/// itself is not allowed to change the indices of existing pallets, too.
-	type CallFilter = frame_support::traits::Nothing;
-	type DepositPerItem = DepositPerItem;
-	type DepositPerByte = DepositPerByte;
-	type CallStack = [pallet_cere_contracts::Frame<Self>; 31];
-	type WeightPrice = pallet_transaction_payment::Pallet<Self>;
-	type WeightInfo = pallet_cere_contracts::weights::SubstrateWeight<Self>;
-	type ChainExtension = ();
-	type DeletionQueueDepth = DeletionQueueDepth;
-	type DeletionWeightLimit = DeletionWeightLimit;
-	type Schedule = CereSchedule;
-	type AddressGenerator = pallet_cere_contracts::DefaultAddressGenerator;
-	// This node is geared towards development and testing of contracts.
-	// We decided to increase the default allowed contract size for this
-	// reason (the default is `128 * 1024`).
-	//
-	// Our reasoning is that the error code `CodeTooLarge` is thrown
-	// if a too-large contract is uploaded. We noticed that it poses
-	// less friction during development when the requirement here is
-	// just more lax.
-	type MaxCodeLen = ConstU32<{ 256 * 1024 }>;
-	type MaxStorageKeyLen = ConstU32<128>;
-	type MaxDebugBufferLen = ConstU32<{ 2 * 1024 * 1024 }>;
-	type UnsafeUnstableInterface = ConstBool<true>;
-}
+// impl pallet_cere_contracts::Config for Runtime {
+// 	type Time = Timestamp;
+// 	type Randomness = RandomnessCollectiveFlip;
+// 	type Currency = Balances;
+// 	type RuntimeEvent = RuntimeEvent;
+// 	type RuntimeCall = RuntimeCall;
+// 	/// The safest default is to allow no calls at all.
+// 	///
+// 	/// Runtimes should whitelist dispatchables that are allowed to be called from contracts
+// 	/// and make sure they are stable. Dispatchables exposed to contracts are not allowed to
+// 	/// change because that would break already deployed contracts. The `RuntimeCall` structure
+// 	/// itself is not allowed to change the indices of existing pallets, too.
+// 	type CallFilter = frame_support::traits::Nothing;
+// 	type DepositPerItem = DepositPerItem;
+// 	type DepositPerByte = DepositPerByte;
+// 	type CallStack = [pallet_cere_contracts::Frame<Self>; 31];
+// 	type WeightPrice = pallet_transaction_payment::Pallet<Self>;
+// 	type WeightInfo = pallet_cere_contracts::weights::SubstrateWeight<Self>;
+// 	type ChainExtension = ();
+// 	type DeletionQueueDepth = DeletionQueueDepth;
+// 	type DeletionWeightLimit = DeletionWeightLimit;
+// 	type Schedule = CereSchedule;
+// 	type AddressGenerator = pallet_cere_contracts::DefaultAddressGenerator;
+// 	// This node is geared towards development and testing of contracts.
+// 	// We decided to increase the default allowed contract size for this
+// 	// reason (the default is `128 * 1024`).
+// 	//
+// 	// Our reasoning is that the error code `CodeTooLarge` is thrown
+// 	// if a too-large contract is uploaded. We noticed that it poses
+// 	// less friction during development when the requirement here is
+// 	// just more lax.
+// 	type MaxCodeLen = ConstU32<{ 256 * 1024 }>;
+// 	type MaxStorageKeyLen = ConstU32<128>;
+// 	type MaxDebugBufferLen = ConstU32<{ 2 * 1024 * 1024 }>;
+// 	type UnsafeUnstableInterface = ConstBool<true>;
+// }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -422,7 +423,7 @@ construct_runtime!(
 		TransactionPayment: pallet_transaction_payment,
 		Sudo: pallet_sudo,
 		Contracts: pallet_contracts,
-		CereContracts: pallet_cere_contracts,
+		// CereContracts: pallet_cere_contracts,
 		Assets: pallet_assets,
 	}
 );
@@ -631,68 +632,68 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl pallet_cere_contracts::CereContractsApi<Block, AccountId, Balance, BlockNumber, Hash>
-		for Runtime
-	{
-		fn call(
-			origin: AccountId,
-			dest: AccountId,
-			value: Balance,
-			gas_limit: Option<Weight>,
-			storage_deposit_limit: Option<Balance>,
-			input_data: Vec<u8>,
-		) -> pallet_contracts_primitives::ContractExecResult<Balance> {
-			let gas_limit = gas_limit.unwrap_or(RuntimeBlockWeights::get().max_block);
-			CereContracts::bare_call(
-				origin,
-				dest,
-				value,
-				gas_limit,
-				storage_deposit_limit,
-				input_data,
-				CONTRACTS_DEBUG_OUTPUT,
-				pallet_cere_contracts::Determinism::Deterministic,
-			)
-		}
+	// impl pallet_cere_contracts::CereContractsApi<Block, AccountId, Balance, BlockNumber, Hash>
+	// 	for Runtime
+	// {
+	// 	fn call(
+	// 		origin: AccountId,
+	// 		dest: AccountId,
+	// 		value: Balance,
+	// 		gas_limit: Option<Weight>,
+	// 		storage_deposit_limit: Option<Balance>,
+	// 		input_data: Vec<u8>,
+	// 	) -> pallet_contracts_primitives::ContractExecResult<Balance> {
+	// 		let gas_limit = gas_limit.unwrap_or(RuntimeBlockWeights::get().max_block);
+	// 		CereContracts::bare_call(
+	// 			origin,
+	// 			dest,
+	// 			value,
+	// 			gas_limit,
+	// 			storage_deposit_limit,
+	// 			input_data,
+	// 			CONTRACTS_DEBUG_OUTPUT,
+	// 			pallet_cere_contracts::Determinism::Deterministic,
+	// 		)
+	// 	}
 
-		fn instantiate(
-			origin: AccountId,
-			value: Balance,
-			gas_limit: Option<Weight>,
-			storage_deposit_limit: Option<Balance>,
-			code: pallet_contracts_primitives::Code<Hash>,
-			data: Vec<u8>,
-			salt: Vec<u8>,
-		) -> pallet_contracts_primitives::ContractInstantiateResult<AccountId, Balance>
-		{
-			let gas_limit = gas_limit.unwrap_or(RuntimeBlockWeights::get().max_block);
-			CereContracts::bare_instantiate(
-				origin,
-				value,
-				gas_limit,
-				storage_deposit_limit,
-				code,
-				data,
-				salt,
-				CONTRACTS_DEBUG_OUTPUT
-			)
-		}
+	// 	fn instantiate(
+	// 		origin: AccountId,
+	// 		value: Balance,
+	// 		gas_limit: Option<Weight>,
+	// 		storage_deposit_limit: Option<Balance>,
+	// 		code: pallet_contracts_primitives::Code<Hash>,
+	// 		data: Vec<u8>,
+	// 		salt: Vec<u8>,
+	// 	) -> pallet_contracts_primitives::ContractInstantiateResult<AccountId, Balance>
+	// 	{
+	// 		let gas_limit = gas_limit.unwrap_or(RuntimeBlockWeights::get().max_block);
+	// 		CereContracts::bare_instantiate(
+	// 			origin,
+	// 			value,
+	// 			gas_limit,
+	// 			storage_deposit_limit,
+	// 			code,
+	// 			data,
+	// 			salt,
+	// 			CONTRACTS_DEBUG_OUTPUT
+	// 		)
+	// 	}
 
-		fn upload_code(
-			origin: AccountId,
-			code: Vec<u8>,
-			storage_deposit_limit: Option<Balance>,
-			determinism: pallet_cere_contracts::Determinism,
-		) -> pallet_contracts_primitives::CodeUploadResult<Hash, Balance>
-		{
-			CereContracts::bare_upload_code(origin, code, storage_deposit_limit, determinism)
-		}
+	// 	fn upload_code(
+	// 		origin: AccountId,
+	// 		code: Vec<u8>,
+	// 		storage_deposit_limit: Option<Balance>,
+	// 		determinism: pallet_cere_contracts::Determinism,
+	// 	) -> pallet_contracts_primitives::CodeUploadResult<Hash, Balance>
+	// 	{
+	// 		CereContracts::bare_upload_code(origin, code, storage_deposit_limit, determinism)
+	// 	}
 
-		fn get_storage(
-			address: AccountId,
-			key: Vec<u8>,
-		) -> pallet_contracts_primitives::GetStorageResult {
-			CereContracts::get_storage(address, key)
-		}
-	}
+	// 	fn get_storage(
+	// 		address: AccountId,
+	// 		key: Vec<u8>,
+	// 	) -> pallet_contracts_primitives::GetStorageResult {
+	// 		CereContracts::get_storage(address, key)
+	// 	}
+	// }
 }

@@ -1,5 +1,5 @@
 [package]
-name = "pallet-contracts-primitives"
+name = "pallet-cere-contracts-primitives"
 version = "7.0.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2021"
@@ -17,9 +17,9 @@ bitflags = "1.0"
 codec = { package = "parity-scale-codec", version = "3.0.0", default-features = false, features = ["derive"] }
 
 # Substrate Dependencies (This crate should not rely on frame)
-sp-std = { version = "5.0.0", default-features = false, path = "../../../primitives/std" }
-sp-runtime = { version = "7.0.0", default-features = false, path = "../../../primitives/runtime" }
-sp-weights = { version = "4.0.0", default-features = false, path = "../../../primitives/weights" }
+sp-std = { git = "https://github.com/paritytech/substrate", package = "sp-std", default-features = false, branch = "polkadot-v0.9.37" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", package = "sp-runtime", default-features = false, branch = "polkadot-v0.9.37" }
+sp-weights = { git = "https://github.com/paritytech/substrate", package = "sp-weights", default-features = false, branch = "polkadot-v0.9.37" }
 
 [features]
 default = ["std"]

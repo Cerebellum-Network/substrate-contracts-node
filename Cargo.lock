@@ -867,8 +867,7 @@ dependencies = [
  "pallet-authorship",
  "pallet-balances",
  "pallet-cere-contracts",
- "pallet-contracts",
- "pallet-contracts-primitives",
+ "pallet-cere-contracts-primitives",
  "pallet-randomness-collective-flip",
  "pallet-sudo",
  "pallet-timestamp",
@@ -4123,8 +4122,8 @@ dependencies = [
  "impl-trait-for-tuples",
  "log",
  "pallet-balances",
- "pallet-contracts-primitives",
- "pallet-contracts-proc-macro",
+ "pallet-cere-contracts-primitives",
+ "pallet-contracts-proc-macro 4.0.0-dev",
  "pallet-randomness-collective-flip",
  "pallet-timestamp",
  "pallet-utility",
@@ -4148,6 +4147,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "pallet-cere-contracts-primitives"
+version = "7.0.0"
+dependencies = [
+ "bitflags",
+ "parity-scale-codec",
+ "sp-runtime",
+ "sp-std",
+ "sp-weights",
+]
+
+[[package]]
 name = "pallet-contracts"
 version = "4.0.0-dev"
 source = "git+https://github.com/paritytech/substrate?branch=polkadot-v0.9.37#946507ba9ef13e263534176b7b74e26fc56efbd4"
@@ -4159,7 +4169,7 @@ dependencies = [
  "impl-trait-for-tuples",
  "log",
  "pallet-contracts-primitives",
- "pallet-contracts-proc-macro",
+ "pallet-contracts-proc-macro 4.0.0-dev (git+https://github.com/paritytech/substrate?branch=polkadot-v0.9.37)",
  "parity-scale-codec",
  "rand 0.8.5",
  "scale-info",
@@ -4185,6 +4195,15 @@ dependencies = [
  "sp-runtime",
  "sp-std",
  "sp-weights",
+]
+
+[[package]]
+name = "pallet-contracts-proc-macro"
+version = "4.0.0-dev"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
