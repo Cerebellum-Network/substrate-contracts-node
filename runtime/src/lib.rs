@@ -630,7 +630,7 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl pallet_cere_contracts::ContractsApi<Block, AccountId, Balance, BlockNumber, Hash>
+	impl pallet_cere_contracts::CereContractsApi<Block, AccountId, Balance, BlockNumber, Hash>
 		for Runtime
 	{
 		fn call(
