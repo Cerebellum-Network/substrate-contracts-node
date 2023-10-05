@@ -1385,23 +1385,27 @@ where
 	}
 
 	fn set_code_hash(&mut self, hash: CodeHash<Self::T>) -> Result<(), DispatchError> {
-		let frame = top_frame_mut!(self);
-		if !E::from_storage(hash, self.schedule, &mut frame.nested_gas)?.is_deterministic() {
-			return Err(<Error<T>>::Indeterministic.into())
-		}
-		E::add_user(hash)?;
-		let prev_hash = frame.contract_info().code_hash;
-		E::remove_user(prev_hash);
-		frame.contract_info().code_hash = hash;
-		Contracts::<Self::T>::deposit_event(
-			vec![T::Hashing::hash_of(&frame.account_id), hash, prev_hash],
-			Event::ContractCodeUpdated {
-				contract: frame.account_id.clone(),
-				new_code_hash: hash,
-				old_code_hash: prev_hash,
-			},
-		);
-		Ok(())
+		// @khssnv: original fn body
+		// let frame = top_frame_mut!(self);
+		// if !E::from_storage(hash, self.schedule, &mut frame.nested_gas)?.is_deterministic() {
+		// 	return Err(<Error<T>>::Indeterministic.into())
+		// }
+		// E::add_user(hash)?;
+		// let prev_hash = frame.contract_info().code_hash;
+		// E::remove_user(prev_hash);
+		// frame.contract_info().code_hash = hash;
+		// Contracts::<Self::T>::deposit_event(
+		// 	vec![T::Hashing::hash_of(&frame.account_id), hash, prev_hash],
+		// 	Event::ContractCodeUpdated {
+		// 		contract: frame.account_id.clone(),
+		// 		new_code_hash: hash,
+		// 		old_code_hash: prev_hash,
+		// 	},
+		// );
+		// Ok(())
+
+		// @khssnv: modified fn body
+		Err(Error::<T>::CodeRejected.into())
 	}
 
 	fn reentrance_count(&self) -> u32 {
