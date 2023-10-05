@@ -5,6 +5,7 @@ members = [
     'runtime',
     'pallets/cere-contracts',
     'pallets/cere-contracts/primitives',
+    'contracts/upgradable_set_code_hash',
 ]
 
 [profile.release]
