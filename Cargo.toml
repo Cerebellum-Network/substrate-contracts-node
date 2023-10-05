@@ -7,6 +7,7 @@ members = [
     'pallets/cere-contracts/primitives',
 ]
 exclude = [
+    'contracts/upgradable_proxy_forwarding',
     'contracts/upgradable_set_code_hash',
 ]
 
