@@ -9,6 +9,7 @@ members = [
 exclude = [
     'contracts/upgradable_proxy_forwarding',
     'contracts/upgradable_set_code_hash',
+    'contracts/cluster_node_candidate_authorization',
 ]
 
 [profile.release]
