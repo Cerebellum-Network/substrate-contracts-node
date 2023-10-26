@@ -406,6 +406,10 @@ impl pallet_contracts::Config for Runtime {
 // 	type UnsafeUnstableInterface = ConstBool<true>;
 // }
 
+/// Configure the pallet-template in pallets/template.
+impl pallet_template::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -425,6 +429,7 @@ construct_runtime!(
 		Contracts: pallet_contracts,
 		// CereContracts: pallet_cere_contracts,
 		Assets: pallet_assets,
+		TemplateModule: pallet_template,
 	}
 );
 

@@ -5,6 +5,8 @@ members = [
     'runtime',
     'pallets/cere-contracts',
     'pallets/cere-contracts/primitives',
+    'pallets/template',
+    'primitives',
 ]
 exclude = [
     'contracts/upgradable_proxy_forwarding',
