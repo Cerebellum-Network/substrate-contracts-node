@@ -44,7 +44,7 @@ mod cluster_node_candidate_authorization {
         }
 
         #[ink(message, selector=0x96b0453f)]
-        pub fn auth_node(&self, candidate: Vec<u8>) -> bool {
+        pub fn auth_node(&self, candidate: Vec<u8>, kind: u8, operator: AccountId) -> bool {
             self.known_node == Some(candidate)
         }
     }
