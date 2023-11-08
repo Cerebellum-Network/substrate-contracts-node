@@ -7,30 +7,18 @@ mod cluster_node_candidate_authorization {
 
     #[ink(storage)]
     pub struct ClusterNodeCandidateAuthorization {
-        allow: bool,
         known_node: Option<Vec<u8>>,
     }
 
     impl ClusterNodeCandidateAuthorization {
         #[ink(constructor)]
-        pub fn new(init_allow: bool, init_known_node: Option<Vec<u8>>) -> Self {
-            Self { allow: init_allow, known_node: init_known_node }
+        pub fn new(init_known_node: Option<Vec<u8>>) -> Self {
+            Self { known_node: init_known_node }
         }
 
         #[ink(constructor)]
         pub fn default() -> Self {
-            Self::new(Default::default(), Default::default())
-        }
-
-        #[ink(message)]
-        pub fn toggle(&mut self) -> bool {
-            self.allow = !self.allow;
-            self.allow
-        }
-
-        #[ink(message, selector=0x96b0453e)]
-        pub fn auth_generally(&self) -> bool {
-            self.allow
+            Self::new(Default::default())
         }
 
         #[ink(message)]
@@ -43,9 +31,9 @@ mod cluster_node_candidate_authorization {
             address.encode()
         }
 
-        #[ink(message, selector=0x96b0453f)]
-        pub fn auth_node(&self, candidate: Vec<u8>, kind: u8, operator: AccountId) -> bool {
-            self.known_node == Some(candidate)
+        #[ink(message, selector=0x96b0453e)]
+        pub fn auth_node(&self, node_provider: AccountId, node: Vec<u8>, node_variant: u8) -> bool {
+            self.known_node == Some(node)
         }
     }
 }
